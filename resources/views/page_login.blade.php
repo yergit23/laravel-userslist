@@ -33,23 +33,30 @@
             </a>
         </div>
         <div class="card p-4 border-top-left-radius-0 border-top-right-radius-0">
-            <div class="alert alert-success">
+            <!-- <div class="alert alert-success">
                 Регистрация успешна
-            </div>
-            <form action="">
+            </div> -->
+            <form action="{{ route('login') }}" method="post" novalidate> 
+                @csrf
                 <div class="form-group">
-                    <label class="form-label" for="username">Email</label>
-                    <input type="email" id="username" class="form-control" placeholder="Эл. адрес" value="">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Эл. адрес" value="{{ old('email') }}" autofocus>
+                    @error('email')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="password">Пароль</label>
-                    <input type="password" id="password" class="form-control" placeholder="" >
+                    <input type="password" id="password" name="password" class="form-control" placeholder="">
+                    @error('password')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <button type="submit" class="btn btn-default float-right">Войти</button>
             </form>
         </div>
         <div class="blankpage-footer text-center">
-            Нет аккаунта? <a href="page_register.html"><strong>Зарегистрироваться</strong>
+            Нет аккаунта? <a href="{{ route('register') }}"><strong>Зарегистрироваться</strong>
         </div>
     </div>
     <video poster="img/backgrounds/clouds.png" id="bgvid" playsinline autoplay muted loop>

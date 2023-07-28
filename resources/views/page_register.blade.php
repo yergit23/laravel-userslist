@@ -38,7 +38,7 @@
                         <span class="text-white opacity-50 ml-auto mr-2 hidden-sm-down">
                             Уже зарегистрированы?
                         </span>
-                        <a href="page_login.html" class="btn-link text-white ml-auto ml-sm-0">
+                        <a href="{{ route('login') }}" class="btn-link text-white ml-auto ml-sm-0">
                             Войти
                         </a>
                     </div>
@@ -59,19 +59,43 @@
                             </div>
                             <div class="col-xl-6 ml-auto mr-auto">
                                 <div class="card p-4 rounded-plus bg-faded">
-                                    <div class="alert alert-danger text-dark" role="alert">
-                                        <strong>Уведомление!</strong> Этот эл. адрес уже занят другим пользователем.
-                                    </div>
-                                    <form id="js-login" novalidate="" action="">
+                                    <!-- <div class="alert alert-danger text-dark" role="alert">
+                                        <strong>Уведомление!</strong><br> -->
+                                        <!-- @foreach ($errors->all() as $message)
+                                            {{$message}}<br>
+                                        @endforeach -->
+                                    <!-- </div> -->
+                                    <form id="js-login" action="{{route('register')}}" method="post">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label class="form-label" for="name">Имя</label>
+                                            <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control" placeholder="Имя" autofocus required>
+                                            <div class="invalid-feedback">Заполните поле.</div>
+                                            @error('name')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
                                         <div class="form-group">
                                             <label class="form-label" for="emailverify">Email</label>
-                                            <input type="email" id="emailverify" class="form-control" placeholder="Эл. адрес" required>
+                                            <input type="email" id="emailverify" name="email" value="{{ old('email') }}" class="form-control" placeholder="Эл. адрес" required>
                                             <div class="invalid-feedback">Заполните поле.</div>
                                             <div class="help-block">Эл. адрес будет вашим логином при авторизации</div>
+                                            @error('email')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="userpassword">Пароль <br></label>
-                                            <input type="password" id="userpassword" class="form-control" placeholder="" required>
+                                            <input type="password" id="userpassword" name="password" class="form-control" placeholder="" required>
+                                            <div class="invalid-feedback">Заполните поле.</div>
+                                            @error('password')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="confirmpassword">Подтвердить пароль <br></label>
+                                            <input type="password" id="confirmpassword" name="password_confirmation" class="form-control" placeholder="" required>
                                             <div class="invalid-feedback">Заполните поле.</div>
                                         </div>
                                        

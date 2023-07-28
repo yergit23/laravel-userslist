@@ -15,20 +15,30 @@
 </head>
     <body class="mod-bg-1 mod-nav-link">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary bg-primary-gradient">
-            <a class="navbar-brand d-flex align-items-center fw-500" href="users.html"><img alt="logo" class="d-inline-block align-top mr-2" src="img/logo.png"> Список пользователей</a> <button aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarColor02" data-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+            <a class="navbar-brand d-flex align-items-center fw-500" href="{{ route('users.index') }}"><img alt="logo" class="d-inline-block align-top mr-2" src="img/logo.png"> Список пользователей</a> <button aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarColor02" data-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{ route('users.index') }}">Главная <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="page_login.html">Войти</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Выйти</a>
-                    </li>
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">Войти</a>
+                        </li>
+                    @endguest
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile') }}">{{ Auth::user()->name }}</a>
+                        </li>
+                        <form method="post" action="{{ route('logout') }}">
+                            <li class="nav-item">
+                                @csrf
+                                <a class="nav-link" onclick="event.preventDefault(); this.closest('form').submit();" href="{{ route('logout') }}">Выйти</a>
+                            </li>
+                        </form> 
+                    @endauth
                 </ul>
             </div>
         </nav>
@@ -44,8 +54,8 @@
             </div>
             <div>
                 <ul class="list-table m-0">
-                    <li><a href="intel_introduction.html" class="text-secondary fw-700">Home</a></li>
-                    <li class="pl-3"><a href="info_app_licensing.html" class="text-secondary fw-700">About</a></li>
+                    <li><a href="{{ route('users.index') }}" class="text-secondary fw-700">Home</a></li>
+                    <li class="pl-3"><a href="{{ route('profile') }}" class="text-secondary fw-700">About</a></li>
                 </ul>
             </div>
         </footer>
