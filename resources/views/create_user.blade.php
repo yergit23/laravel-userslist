@@ -7,11 +7,9 @@
             <h1 class="subheader-title">
                 <i class='subheader-icon fal fa-plus-circle'></i> Добавить пользователя
             </h1>
-
-
-
         </div>
-        <form action="">
+        <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
+            @csrf
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -22,26 +20,29 @@
                             <div class="panel-content">
                                 <!-- username -->
                                 <div class="form-group">
-                                    <label class="form-label" for="simpleinput">Имя</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <label class="form-label" for="simpleinput">Имя *</label>
+                                    <input type="text" name="username" id="simpleinput" class="form-control" autofocus>
+                                    @error('username')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
-                                <!-- title -->
+                                <!-- job -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Место работы</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <input type="text" name="job" id="simpleinput" class="form-control">
                                 </div>
 
                                 <!-- tel -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Номер телефона</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <input type="text" name="phone" id="simpleinput" class="form-control">
                                 </div>
 
                                 <!-- address -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Адрес</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <input type="text" name="address" id="simpleinput" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -57,30 +58,39 @@
                             <div class="panel-content">
                                 <!-- email -->
                                 <div class="form-group">
-                                    <label class="form-label" for="simpleinput">Email</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <label class="form-label" for="simpleinput">Email *</label>
+                                    <input type="email" name="email" id="simpleinput" class="form-control">
+                                    @error('email')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <!-- password -->
                                 <div class="form-group">
-                                    <label class="form-label" for="simpleinput">Пароль</label>
-                                    <input type="password" id="simpleinput" class="form-control">
+                                    <label class="form-label" for="simpleinput">Пароль *</label>
+                                    <input type="password" name="password" id="simpleinput" class="form-control">
+                                    @error('password')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 
                                 <!-- status -->
                                 <div class="form-group">
                                     <label class="form-label" for="example-select">Выберите статус</label>
-                                    <select class="form-control" id="example-select">
-                                        <option>Онлайн</option>
-                                        <option>Отошел</option>
-                                        <option>Не беспокоить</option>
+                                    <select class="form-control" name="status" id="example-select">
+                                        <option value="success">Онлайн</option>
+                                        <option value="warning">Отошел</option>
+                                        <option value="danger">Не беспокоить</option>
                                     </select>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="form-label" for="example-fileinput">Загрузить аватар</label>
-                                    <input type="file" id="example-fileinput" class="form-control-file">
+                                    <input type="file" name="img" id="example-fileinput" class="form-control-file">
+                                    @error('img')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -107,7 +117,7 @@
                                                     </span>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control border-left-0 bg-transparent pl-0">
+                                            <input type="text" name="vk" class="form-control border-left-0 bg-transparent pl-0">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -121,7 +131,7 @@
                                                     </span>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control border-left-0 bg-transparent pl-0">
+                                            <input type="text" name="tgm" class="form-control border-left-0 bg-transparent pl-0">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -135,11 +145,11 @@
                                                     </span>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control border-left-0 bg-transparent pl-0">
+                                            <input type="text" name="inst" class="form-control border-left-0 bg-transparent pl-0">
                                         </div>
                                     </div>
                                     <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                        <button class="btn btn-success">Добавить</button>
+                                        <button type="submit" class="btn btn-success">Добавить</button>
                                     </div>
                                 </div>
                             </div>

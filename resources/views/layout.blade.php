@@ -30,7 +30,7 @@
                     @endguest
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('profile') }}">{{ Auth::user()->name }}</a>
+                            <a class="nav-link" href="{{ route('users.profile', Auth::id()) }}">{{ Auth::user()->name }}</a>
                         </li>
                         <form method="post" action="{{ route('logout') }}">
                             <li class="nav-item">
@@ -43,7 +43,7 @@
             </div>
         </nav>
 
-        <main id="js-page-content" role="main" class="page-content mt-3">
+        <main id="js-page-content" role="main" class="page-content mt-3" style="min-height:600px">
             @yield('content')
         </main>
      
@@ -55,7 +55,7 @@
             <div>
                 <ul class="list-table m-0">
                     <li><a href="{{ route('users.index') }}" class="text-secondary fw-700">Home</a></li>
-                    <li class="pl-3"><a href="{{ route('profile') }}" class="text-secondary fw-700">About</a></li>
+                    <li class="pl-3"><a href="{{ route('users.profile', Auth::id()) }}" class="text-secondary fw-700">Profile</a></li>
                 </ul>
             </div>
         </footer>

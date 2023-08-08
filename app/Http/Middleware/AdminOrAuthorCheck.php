@@ -6,9 +6,17 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
+use App\Services\FlashService;
 
-class AdministratorCheck
+class AdminOrAuthorCheck
 {
+    private $flash;
+
+    public function __construct(FlashService $flashService)
+    {
+        $this->flash = $flashService;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -18,14 +26,13 @@ class AdministratorCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::check() && !Auth::user()->isAdmin())
+        if(Auth::user()->isAdmin() || Auth::user()->isAuthor())
         {
-            session()->flash('flash.message', 'У Вас нет прав администратора');
-            session()->flash('flash.type', 'warning');
-
-            return redirect(RouteServiceProvider::HOME);
+            return $next($request);
         }
+        
+        $this->flash->flashMessage('warning', 'Вы можете редактировать только свою общую информацию');
 
-        return $next($request);
+        return redirect(RouteServiceProvider::HOME);
     }
 }

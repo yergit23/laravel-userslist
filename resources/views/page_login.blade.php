@@ -36,7 +36,7 @@
             <!-- <div class="alert alert-success">
                 Регистрация успешна
             </div> -->
-            <form action="{{ route('login') }}" method="post" novalidate> 
+            <form action="{{ route('login.store') }}" method="post" novalidate> 
                 @csrf
                 <div class="form-group">
                     <label class="form-label" for="email">Email</label>

@@ -51,10 +51,10 @@
                                     </a>
                                     @canany(['admin-user', 'author-user'], $user->id)
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="/edit/{{ $user->id }}">
+                                        <a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">
                                             <i class="fa fa-edit"></i>
                                         Редактировать</a>
-                                        <a class="dropdown-item" href="/security/{{ $user->id }}">
+                                        <a class="dropdown-item" href="{{ route('users.security', $user->id) }}">
                                             <i class="fa fa-lock"></i>
                                         Безопасность</a>
                                         <a class="dropdown-item" href="/status/{{ $user->id }}">
