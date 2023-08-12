@@ -9,7 +9,9 @@
             </h1>
 
         </div>
-        <form action="">
+        <form action="{{ route('users.media.update', $userMedia->id) }}" enctype="multipart/form-data" method="post">
+            @csrf
+            @method('put')
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -19,17 +21,23 @@
                             </div>
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <img src="img/demo/authors/josh.png" alt="" class="img-responsive" width="200">
+                                    @if($userMedia->img)
+                                    <img src="{{ $userMedia->img }}" alt="" class="img-responsive" width="200">
+                                    @else
+                                    <img src="img/demo/avatars/avatar-m.png" alt="" class="img-responsive" width="200">
+                                    @endif
                                 </div>
 
                                 <div class="form-group">
                                     <label class="form-label" for="example-fileinput">Выберите аватар</label>
-                                    <input type="file" id="example-fileinput" class="form-control-file">
+                                    <input type="file" name="img" id="example-fileinput" class="form-control-file">
+                                    @error('img')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
-
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                    <button class="btn btn-warning">Загрузить</button>
+                                    <button type="submit" class="btn btn-warning">Загрузить</button>
                                 </div>
                             </div>
                         </div>

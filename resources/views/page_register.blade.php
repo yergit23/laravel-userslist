@@ -65,7 +65,7 @@
                                             {{$message}}<br>
                                         @endforeach -->
                                     <!-- </div> -->
-                                    <form id="js-login" action="{{route('register')}}" method="post">
+                                    <form id="js-login" action="{{ route('register.store') }}" method="post">
                                         @csrf
                                         <div class="form-group">
                                             <label class="form-label" for="name">Имя</label>

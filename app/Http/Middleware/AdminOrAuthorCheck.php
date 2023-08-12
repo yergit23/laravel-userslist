@@ -31,7 +31,7 @@ class AdminOrAuthorCheck
             return $next($request);
         }
         
-        $this->flash->flashMessage('warning', 'Вы можете редактировать только свою общую информацию');
+        $this->flash->flashMessage('warning', 'Вы можете редактировать только свой профиль');
 
         return redirect(RouteServiceProvider::HOME);
     }

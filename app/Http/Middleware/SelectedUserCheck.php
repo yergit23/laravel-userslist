@@ -26,8 +26,8 @@ class SelectedUserCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::user()->userSelected()) {
-            $this->flash->flashMessage('danger', 'Вы не выбрали пользователя');
+        if(!Auth::user()->userSelected() || !Auth::user()->userExist()) {
+            $this->flash->flashMessage('warning', 'Такой пользователь не существует');
 
             return redirect(RouteServiceProvider::HOME);
         }

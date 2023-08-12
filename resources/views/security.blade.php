@@ -9,7 +9,7 @@
             </h1>
 
         </div>
-        <form action="{{ route('users.security.update', $user->id) }}" method="post">
+        <form action="{{ route('users.security.update', $userSecurity->id) }}" method="post">
             @csrf
             @method('put')
             <div class="row">
@@ -23,7 +23,7 @@
                                 <!-- email -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Email</label>
-                                    <input type="email" name="email" id="simpleinput" class="form-control" value="{{ $user->email }}" autofocus>
+                                    <input type="email" name="email" id="simpleinput" class="form-control" value="{{ $userSecurity->email }}" autofocus>
                                     @error('email')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror

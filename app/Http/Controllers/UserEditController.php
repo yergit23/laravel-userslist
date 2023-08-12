@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use App\Services\FlashService;
-use App\Providers\RouteServiceProvider;
 
 class UserEditController extends Controller
 {
@@ -21,9 +20,9 @@ class UserEditController extends Controller
 
     public function edit($id)
     {
-        $user = $this->user->one($id);
+        $userEdit = $this->user->one($id);
 
-        return view('edit', compact('user'));
+        return view('edit', compact('userEdit'));
     }
 
     public function update(Request $request, $id)
@@ -32,6 +31,6 @@ class UserEditController extends Controller
 
         $this->flash->flashMessage('success', 'Общая информация пользователя обновлена');
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('users.profile', $id);
     }
 }

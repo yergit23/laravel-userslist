@@ -9,7 +9,9 @@
             </h1>
 
         </div>
-        <form action="">
+        <form action="{{ route('users.status.update', $userStatus->id) }}" method="post">
+            @csrf
+            @method('put')
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -23,15 +25,19 @@
                                         <!-- status -->
                                         <div class="form-group">
                                             <label class="form-label" for="example-select">Выберите статус</label>
-                                            <select class="form-control" id="example-select">
-                                                <option>Онлайн</option>
-                                                <option>Отошел</option>
-                                                <option>Не беспокоить</option>
+                                            <select name="status" class="form-control" id="example-select">
+                                                @foreach($statuses as $status)
+                                                    @if($userStatus->status == $status->name_eng)
+                                                        <option value="{{ $status->name_eng }}" selected>{{ $status->name_ru}}</option>
+                                                    @else
+                                                        <option value="{{ $status->name_eng }}">{{ $status->name_ru}}</option>
+                                                    @endif
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                        <button class="btn btn-warning">Set Status</button>
+                                        <button type="submit" class="btn btn-warning">Set Status</button>
                                     </div>
                                 </div>
                             </div>

@@ -17,9 +17,14 @@ class UserListController extends Controller
 
     public function index()
     {
-        $users = $this->users->all();
+        $usersList = $this->users->all();
 
-        return view('users', compact('users'));
+        return view('users', compact('usersList'));
+    }
+
+    public function welcome()
+    {
+        return view('welcome');
     }
 
 }

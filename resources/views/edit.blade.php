@@ -9,7 +9,7 @@
             </h1>
 
         </div>
-        <form action="{{ route('users.update', $user->id) }}" method="post">
+        <form action="{{ route('users.update', $userEdit->id) }}" method="post">
             @csrf
             @method('put')
             <div class="row">
@@ -23,25 +23,25 @@
                                 <!-- username -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Имя</label>
-                                    <input type="text" name="username" id="simpleinput" class="form-control" value="{{ $user->name }}">
+                                    <input type="text" name="username" id="simpleinput" class="form-control" value="{{ $userEdit->name }}">
                                 </div>
 
                                 <!-- job -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Место работы</label>
-                                    <input type="text" name="job" id="simpleinput" class="form-control" value="{{ $user->job }}">
+                                    <input type="text" name="job" id="simpleinput" class="form-control" value="{{ $userEdit->job }}">
                                 </div>
 
                                 <!-- tel -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Номер телефона</label>
-                                    <input type="text" name="phone" id="simpleinput" class="form-control" value="{{ $user->phone }}">
+                                    <input type="text" name="phone" id="simpleinput" class="form-control" value="{{ $userEdit->phone }}">
                                 </div>
 
                                 <!-- address -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Адрес</label>
-                                    <input type="text" name="address" id="simpleinput" class="form-control" value="{{ $user->address }}">
+                                    <input type="text" name="address" id="simpleinput" class="form-control" value="{{ $userEdit->address }}">
                                 </div>
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">
                                     <button type="submit" class="btn btn-warning">Редактировать</button>

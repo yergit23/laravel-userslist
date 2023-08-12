@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UserService
 {
@@ -52,33 +54,88 @@ class UserService
         } 
     }
 
-    public function update($user, $id)
+    public function update($request, $id)
     {
         DB::table('users')
                 ->where('id', $id)
                 ->update([
-                    'name' => $user->username,
-                    'job' => $user->job,
-                    'phone' => $user->phone,
-                    'address' => $user->address,
+                    'name' => $request->username,
+                    'job' => $request->job,
+                    'phone' => $request->phone,
+                    'address' => $request->address,
                 ]);
     }
 
-    public function updateSafety($user, $id)
+    public function updateSafety($request, $id)
     {
-        if($user->password) {
+        if($request->password) {
             DB::table('users')
                 ->where('id', $id)
                 ->update([
-                    'email' => $user->email,
-                    'password' => Hash::make($user->password),
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
                 ]);
         }
 
         DB::table('users')
                 ->where('id', $id)
                 ->update([
-                    'email' => $user->email,
+                    'email' => $request->email,
                 ]);
+    }
+
+    public function updateStatus($request, $id)
+    {
+        DB::table('users')
+                ->where('id', $id)
+                ->update([
+                    'status' => $request->status,
+                ]);
+    }
+
+    public function updateMedia($request, $id)
+    {
+        // Select user with image
+        $user = DB::table('users')
+                ->select('id', 'name', 'img')
+                ->where('id', $id)
+                ->first();
+
+        // Remove previous image
+        if ($user->img) {
+            Storage::delete($user->img);
+        }
+
+        // Update image in DB
+        $userImage = DB::table('users')
+                ->where('id', $id)
+                ->update(['img' => $request->file('img')->store('img/demo/avatars')]);
+    }
+
+    public function userDelete($id)
+    {
+        // Select user with image
+        $user = DB::table('users')
+                ->select('id', 'name', 'img')
+                ->where('id', $id)
+                ->first();
+
+        // Remove image
+        if ($user->img) {
+            Storage::delete($user->img);
+        }
+
+        DB::table('users')
+                ->where('id', $id)
+                ->delete();
+    }
+
+    public function logout($request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
     }
 }

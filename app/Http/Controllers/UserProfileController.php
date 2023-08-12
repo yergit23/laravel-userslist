@@ -17,8 +17,8 @@ class UserProfileController extends Controller
 
     public function show($id)
     {
-        $user = $this->user->one($id);
+        $userProfile = $this->user->one($id);
 
-        return view('page_profile', compact('user'));
+        return view('page_profile', compact('userProfile'));
     }
 }

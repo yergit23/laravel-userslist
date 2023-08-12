@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Status;
 
 class User extends Authenticatable
 {
@@ -66,5 +67,11 @@ class User extends Authenticatable
     public function userSelected()
     {
         return request()->id;
+    }
+
+    // selected user exists
+    public function userExist()
+    {
+        return $user = User::find(request()->id);
     }
 }

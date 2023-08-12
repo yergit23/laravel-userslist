@@ -33,13 +33,17 @@
                 </div>
             </div>
             <div class="row" id="js-contacts">
-                @foreach($users as $user)
+                @foreach($usersList as $user)
                 <div class="col-xl-4">
                     <div id="c_1" class="card border shadow-0 mb-g shadow-sm-hover" data-filter-tags="{{ $user->name }}">
                         <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
                             <div class="d-flex flex-row align-items-center">
                                 <span class="status status-{{ $user->status }} mr-3">
+                                    @if($user->img)
                                     <span class="rounded-circle profile-image d-block " style="background-image:url('{{ $user->img }}'); background-size: cover;"></span>
+                                    @else
+                                    <span class="rounded-circle profile-image d-block " style="background-image:url('img/demo/avatars/avatar-m.png'); background-size: cover;"></span>
+                                    @endif
                                 </span>
                                 <div class="info-card-text flex-1">
                                     <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info" data-toggle="dropdown" aria-expanded="false">
@@ -57,17 +61,21 @@
                                         <a class="dropdown-item" href="{{ route('users.security', $user->id) }}">
                                             <i class="fa fa-lock"></i>
                                         Безопасность</a>
-                                        <a class="dropdown-item" href="/status/{{ $user->id }}">
+                                        <a class="dropdown-item" href="{{ route('users.status', $user->id) }}">
                                             <i class="fa fa-sun"></i>
                                         Установить статус</a>
-                                        <a class="dropdown-item" href="/media/{{ $user->id }}">
+                                        <a class="dropdown-item" href="{{ route('users.media', $user->id) }}">
                                             <i class="fa fa-camera"></i>
                                             Загрузить аватар
                                         </a>
-                                        <a href="#" class="dropdown-item" onclick="return confirm('are you sure?');">
-                                            <i class="fa fa-window-close"></i>
-                                            Удалить
-                                        </a>
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <a href="{{ route('users.destroy', $user->id) }}" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit(); return confirm('Вы уверены?'); ">
+                                                <i class="fa fa-window-close"></i>
+                                                Удалить
+                                            </a>
+                                        </form>
                                     </div>
                                     @endcanany
                                     <span class="text-truncate text-truncate-xl">{{ $user->job }}</span>

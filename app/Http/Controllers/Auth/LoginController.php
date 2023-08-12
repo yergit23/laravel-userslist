@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Validation\ValidationException;
+use App\Services\UserService;
 
 class LoginController extends Controller
 {
+    private $user;
+
+    public function __construct(UserService $userService)
+    {
+        $this->user = $userService;
+    }
+
     public function create()
     {
         return view('page_login');
@@ -43,11 +51,7 @@ class LoginController extends Controller
 
     public function destroy(Request $request)
     {
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
+        $this->user->logout($request);
 
         return redirect()->route('login');
     }

@@ -8,6 +8,9 @@ use App\Http\Controllers\UserCreateController;
 use App\Http\Controllers\UserEditController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserSecurityController;
+use App\Http\Controllers\UserStatusController;
+use App\Http\Controllers\UserMediaController;
+use App\Http\Controllers\UserDeleteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +24,7 @@ use App\Http\Controllers\UserSecurityController;
 */
 
 Route::get('/', [UserListController::class, 'index'])->middleware('auth')->name('users.index');
+Route::get('/welcome', [UserListController::class, 'welcome'])->middleware('auth');
 
 Route::get('/login', [LoginController::class, 'create'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'store'])->middleware('guest')->name('login.store');
@@ -35,21 +39,17 @@ Route::put('/{id}-edit', [UserEditController::class, 'update'])->middleware(['au
 
 Route::get('/{id}-profile', [UserProfileController::class, 'show'])->middleware('auth', 'selected.user')->name('users.profile');
 
-Route::get('/{id}-security', [UserSecurityController::class, 'show'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.security');
+Route::get('/{id}-security', [UserSecurityController::class, 'edit'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.security');
 Route::put('/{id}-security', [UserSecurityController::class, 'update'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.security.update');
 
-Route::get('/status', function () {
-    return view('status');
-});
+Route::get('/{id}-status', [UserStatusController::class, 'edit'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.status');
+Route::put('/{id}-status', [UserStatusController::class, 'update'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.status.update');
 
-Route::get('/umedia', function () {
-    return view('media');
-});
+Route::get('/{id}-umedia', [UserMediaController::class, 'edit'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.media');
+Route::put('/{id}-umedia', [UserMediaController::class, 'update'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.media.update');
 
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.store');
 
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
-
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/{id}-delete', [UserDeleteController::class, 'getDestroy'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.get.destroy');
+Route::delete('/{id}-delete', [UserDeleteController::class, 'destroy'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.destroy');
