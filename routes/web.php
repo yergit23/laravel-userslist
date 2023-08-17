@@ -23,33 +23,46 @@ use App\Http\Controllers\UserDeleteController;
 |
 */
 
-Route::get('/', [UserListController::class, 'index'])->middleware('auth')->name('users.index');
-Route::get('/welcome', [UserListController::class, 'welcome'])->middleware('auth');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'create'])->name('login');
+    Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 
-Route::get('/login', [LoginController::class, 'create'])->middleware('guest')->name('login');
-Route::post('/login', [LoginController::class, 'store'])->middleware('guest')->name('login.store');
+    Route::get('/register', [RegisterController::class, 'create'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+});
 
-Route::post('/logout', [LoginController::class, 'destroy'])->middleware('auth')->name('logout');
+Route::middleware('auth')->group(function () {
+    Route::get('/', [UserListController::class, 'index'])->name('users.index');
+    Route::get('/search', [UserListController::class, 'search'])->name('users.search');
 
-Route::get('/create', [UserCreateController::class, 'create'])->middleware(['auth', 'admin'])->name('users.create');
-Route::post('/create', [UserCreateController::class, 'store'])->middleware(['auth', 'admin'])->name('users.store');
+    Route::get('/welcome', [UserListController::class, 'welcome']);
 
-Route::get('/{id}-edit', [UserEditController::class, 'edit'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.edit');
-Route::put('/{id}-edit', [UserEditController::class, 'update'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.update');
+    Route::get('/logout', [LoginController::class, 'getDestroy'])->name('logout.get.destroy');
+    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout.destroy');
+});
 
-Route::get('/{id}-profile', [UserProfileController::class, 'show'])->middleware('auth', 'selected.user')->name('users.profile');
+Route::middleware(['auth', 'selected.user'])->group(function () {
+    Route::get('/{id}-profile', [UserProfileController::class, 'show'])->name('users.profile');
+});
 
-Route::get('/{id}-security', [UserSecurityController::class, 'edit'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.security');
-Route::put('/{id}-security', [UserSecurityController::class, 'update'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.security.update');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/create', [UserCreateController::class, 'create'])->name('users.create');
+    Route::post('/create', [UserCreateController::class, 'store'])->name('users.store');
+});
 
-Route::get('/{id}-status', [UserStatusController::class, 'edit'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.status');
-Route::put('/{id}-status', [UserStatusController::class, 'update'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.status.update');
+Route::middleware(['auth', 'selected.user', 'admin.author'])->group(function () {
+    Route::get('/{id}-edit', [UserEditController::class, 'edit'])->name('users.edit');
+    Route::put('/{id}-edit', [UserEditController::class, 'update'])->name('users.update');
 
-Route::get('/{id}-umedia', [UserMediaController::class, 'edit'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.media');
-Route::put('/{id}-umedia', [UserMediaController::class, 'update'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.media.update');
+    Route::get('/{id}-security', [UserSecurityController::class, 'edit'])->name('users.security');
+    Route::put('/{id}-security', [UserSecurityController::class, 'update'])->name('users.security.update');
 
-Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.store');
+    Route::get('/{id}-status', [UserStatusController::class, 'edit'])->name('users.status');
+    Route::put('/{id}-status', [UserStatusController::class, 'update'])->name('users.status.update');
 
-Route::get('/{id}-delete', [UserDeleteController::class, 'getDestroy'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.get.destroy');
-Route::delete('/{id}-delete', [UserDeleteController::class, 'destroy'])->middleware(['auth', 'selected.user', 'admin.author'])->name('users.destroy');
+    Route::get('/{id}-umedia', [UserMediaController::class, 'edit'])->name('users.media');
+    Route::put('/{id}-umedia', [UserMediaController::class, 'update'])->name('users.media.update');
+
+    Route::get('/{id}-delete', [UserDeleteController::class, 'getDestroy'])->name('users.get.destroy');
+    Route::delete('/{id}-delete', [UserDeleteController::class, 'destroy'])->name('users.destroy');
+});

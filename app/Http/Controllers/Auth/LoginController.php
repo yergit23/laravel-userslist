@@ -8,14 +8,17 @@ use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Validation\ValidationException;
 use App\Services\UserService;
+use App\Services\FlashService;
 
 class LoginController extends Controller
 {
     private $user;
+    private $flash;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, FlashService $flashService)
     {
         $this->user = $userService;
+        $this->flash = $flashService;
     }
 
     public function create()
@@ -54,5 +57,12 @@ class LoginController extends Controller
         $this->user->logout($request);
 
         return redirect()->route('login');
+    }
+
+    public function getDestroy()
+    {
+        $this->flash->flashMessage('danger', 'Нельзя выйти из системы через GET запрос');
+
+        return redirect(RouteServiceProvider::HOME);
     }
 }

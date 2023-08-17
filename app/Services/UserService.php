@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserService
 {
@@ -137,5 +138,17 @@ class UserService
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+    }
+
+    public function userSearch($request)
+    {
+        $search = $request->input('filter-contacts');
+
+        $users = User::query()
+                ->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('email', 'LIKE', "%{$search}%")
+                ->get();
+
+        return $users;
     }
 }

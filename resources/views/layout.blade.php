@@ -12,6 +12,7 @@
     <link rel="stylesheet" media="screen, print" href="css/fa-solid.css">
     <link rel="stylesheet" media="screen, print" href="css/fa-brands.css">
     <link rel="stylesheet" media="screen, print" href="css/fa-regular.css">
+
 </head>
     <body class="mod-bg-1 mod-nav-link">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary bg-primary-gradient">
@@ -32,10 +33,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.profile', Auth::id()) }}">{{ Auth::user()->name }}</a>
                         </li>
-                        <form method="post" action="{{ route('logout') }}">
+                        <form method="post" action="{{ route('logout.destroy') }}">
                             <li class="nav-item">
                                 @csrf
-                                <a class="nav-link" onclick="event.preventDefault(); this.closest('form').submit();" href="{{ route('logout') }}">Выйти</a>
+                                <a class="nav-link" onclick="event.preventDefault(); this.closest('form').submit();" href="{{ route('logout.destroy') }}">Выйти</a>
                             </li>
                         </form> 
                     @endauth
